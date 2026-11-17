@@ -4,6 +4,8 @@ Keeps your Claude plan usage (the numbers behind `/usage`) on screen, so you don
 
 It shows the 5-hour session limit and the weekly limit in the GNOME top bar and in the Claude Code status line, and updates them on its own every 3 minutes, or every 1 or 2 minutes if you choose that in its menu.
 
+> **Unofficial:** not affiliated with or endorsed by Anthropic. It reads an undocumented address that Anthropic may change at any time; see [Caveat](#caveat).
+
 ## What you see
 
 ```
@@ -38,14 +40,20 @@ The numbers include everything you use on your plan: Claude Code, the mobile app
 
 You need:
 - Ubuntu or another GNOME desktop with tray icons (AppIndicator) enabled. Ubuntu has this by default.
-- The system Python 3 and `jq`.
+- The system Python 3, `git` and `jq`.
 - Claude Code, logged in with a Claude subscription (Pro or Max).
 
+**On a computer without a copy of this repo**, run:
+
 ```bash
-./install.sh
+curl -fsSL https://raw.githubusercontent.com/DelDmc/claude-usage-widget/main/get.sh | bash
 ```
 
-The script does three things, once:
+This downloads the widget to `~/.local/share/claude-usage-widget` and runs `install.sh` from there. To update later, run the same command again.
+
+**From a copy of this repo**, run `./install.sh`.
+
+`install.sh` does three things, once:
 1. It starts the top-bar widget and sets it to start every time you log in.
 2. It adds the status line to `~/.claude/settings.json`. It saves a backup as `settings.json.bak-usage-widget` first. If you already have a status line, it leaves yours alone.
 3. It installs the `/usage-widget` Claude Code skill, which you can use in any project.
@@ -102,6 +110,7 @@ To change the colors, or how soon the icon turns grey, edit these values at the 
 | `claude_usage.py` | Fetches, saves and formats the numbers. Also a small command-line tool. |
 | `indicator.py` | The GNOME top-bar widget |
 | `statusline.py` | The Claude Code status line |
+| `get.sh` | The one-line installer: downloads or updates the repo, then runs `install.sh` |
 | `install.sh` | Installs or uninstalls everything |
 | `start.sh` | Starts the widget if it isn't running, then prints your usage |
 | `skill/SKILL.md` | The `/usage-widget` skill. `install.sh` copies it to `~/.claude/skills/` and fills in this folder's path. |
@@ -110,3 +119,7 @@ To change the colors, or how soon the icon turns grey, edit these values at the 
 ## Caveat
 
 The usage address is not officially documented, so Anthropic may change it without notice. If that happens, the widget keeps the last numbers it had and turns grey; it doesn't crash.
+
+## License
+
+MIT; see [LICENSE](LICENSE).
